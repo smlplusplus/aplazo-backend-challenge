@@ -151,7 +151,7 @@ paths:
         "500":
           $ref: '#/components/responses/InternalServerErrorResponse'
       security:
-        - aplazoAuth: []
+        - aplazoAuth: [ ]
   /loans:
     post:
       tags:
@@ -213,7 +213,7 @@ paths:
         "500":
           $ref: '#/components/responses/InternalServerErrorResponse'
       security:
-        - aplazoAuth: []
+        - aplazoAuth: [ ]
   /loans/{loanId}:
     get:
       tags:
@@ -256,7 +256,7 @@ paths:
         "500":
           $ref: '#/components/responses/InternalServerErrorResponse'
       security:
-        - aplazoAuth: []
+        - aplazoAuth: [ ]
 components:
   schemas:
     CustomerRequest:
