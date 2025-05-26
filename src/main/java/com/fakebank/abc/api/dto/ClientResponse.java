@@ -7,11 +7,13 @@ import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClientRequest {
+public class ClientResponse {
     @Setter
     @Getter
-    private String name;
+    private Long clientId;
     @Setter
     @Getter
-    private String birthDate;
+    private int assignedCredit;
+
+
 }

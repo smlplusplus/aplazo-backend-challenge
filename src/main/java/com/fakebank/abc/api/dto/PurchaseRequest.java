@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
 @AllArgsConstructor
-public class ClientRequest {
+@NoArgsConstructor
+public class PurchaseRequest {
     @Setter
     @Getter
-    private String name;
+    private Long clientId;
     @Setter
     @Getter
-    private String birthDate;
+    private double amount;
 }
