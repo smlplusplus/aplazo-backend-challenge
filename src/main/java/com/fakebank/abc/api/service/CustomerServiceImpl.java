@@ -3,7 +3,7 @@ package com.fakebank.abc.api.service;
 import com.fakebank.abc.api.dto.CustomerRequest;
 import com.fakebank.abc.api.dto.CustomerResponse;
 import com.fakebank.abc.api.entity.Customer;
-import com.fakebank.abc.api.exeption.BnplApiExeption;
+import com.fakebank.abc.api.exception.BnplApiException;
 import com.fakebank.abc.api.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +24,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponse createCustomer(CustomerRequest request) {
+    public CustomerResponse createCustomer(CustomerRequest request) throws BnplApiException {
         // Validar edad
         LocalDate now = LocalDate.now();
         int age = now.getYear() - request.getDateOfBirth().getYear();
-        if (age < 18 || age > 65) throw new BnplApiExeption("Customer not eligible by age");
+        if (age < 18 || age > 65) throw new BnplApiException("Customer not eligible by age");
 
         double creditLine = (age <= 25) ? 3000 : (age <= 30) ? 5000 : 8000;
 
@@ -52,10 +52,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponse getCustomerById(Long customerId) {
+    public CustomerResponse getCustomerById(Long customerId) throws BnplApiException {
         Optional<Customer> customer = customerRepository.findById(customerId);
         if (customer.isEmpty())
-            throw new BnplApiExeption("Customer not found");
+            throw new BnplApiException("Customer not found");
         Customer c = customer.get();
         CustomerResponse response = new CustomerResponse();
         response.setId(c.getId());
