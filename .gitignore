@@ -31,3 +31,10 @@ build/
 
 ### VS Code ###
 .vscode/
+/.jetclient/Customer/_folder.md
+/.jetclient/Loan/_folder.md
+/.jetclient/Customer/Create Customer.md
+/.jetclient/Loan/Create Loan.md
+/.jetclient/Customer/Get Customer.md
+/.jetclient/Loan/Get Loan.md
+/.jetclient/jetclient.md
