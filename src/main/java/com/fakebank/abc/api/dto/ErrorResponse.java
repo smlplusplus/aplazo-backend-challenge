@@ -14,7 +14,7 @@ public class ErrorResponse {
 
     @Setter
     @Getter
-    private Long timestamp;
+    private String timestamp;
 
     @Setter
     @Getter

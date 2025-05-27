@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -18,8 +19,9 @@ public class ApiExceptionHandler {
     public ResponseEntity<ErrorResponse> handleAll(Exception ex, WebRequest request) {
         ErrorResponse error = new ErrorResponse();
         error.setCode("ERR0001");
-        error.setError("Something went wrong");
-        error.setTimestamp(Instant.now().getEpochSecond());
+        error.setError(ex.getMessage());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm:ss");
+        error.setTimestamp(LocalDateTime.now().format(formatter));
         error.setMessage("An unexpected error occurred. Please try again later.");
         error.setPath(request.getDescription(false).replace("uri=", ""));
        logger.error(error.toString());
