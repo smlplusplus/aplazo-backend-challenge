@@ -40,11 +40,11 @@ public class LoanServiceImpl implements LoanService {
         if (amount > customer.getAvailableCreditLineAmount())
             throw new BnplApiException("Insufficient credit line");
 
-        // Calcular esquema de pago y comisión (lógica simplificada)
+        // Calcular esquema de pago y comisión
         double commissionRate = 0.16;
         if (customer.getFirstName().startsWith("C") || customer.getFirstName().startsWith("L") || customer.getFirstName().startsWith("H")) {
             commissionRate = 0.13;
-        } else if (customer.getId() > 25) { // id > 25
+        } else if (customer.getId() > 25) {
             commissionRate = 0.16;
         }
         double commissionAmount = amount * commissionRate;
@@ -90,14 +90,11 @@ public class LoanServiceImpl implements LoanService {
     public LoanResponse getLoanById(Long loanId) throws BnplApiException {
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new BnplApiException("Loan not found"));
-        // Armar LoanResponse similar a createLoan
-        // (Para simplificar, omitir detalles de plan de pago)
         LoanResponse response = new LoanResponse();
         response.setId(loan.getId());
         response.setCustomerId(loan.getCustomer().getId());
         response.setStatus(loan.getStatus());
         response.setCreatedAt(loan.getCreatedAt());
-        // Puedes agregar lógica para paymentPlan si lo necesitas aquí
         return response;
     }
 }
