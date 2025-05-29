@@ -1,6 +1,5 @@
 package com.fakebank.abc.api.service;
 
-
 import com.fakebank.abc.api.dto.InstallmentResponse;
 import com.fakebank.abc.api.dto.LoanRequest;
 import com.fakebank.abc.api.dto.LoanResponse;
@@ -11,6 +10,8 @@ import com.fakebank.abc.api.repository.CustomerRepository;
 import com.fakebank.abc.api.repository.LoanRepository;
 import com.fakebank.abc.api.util.InstallmentStatus;
 import com.fakebank.abc.api.util.LoanStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +23,10 @@ import java.util.List;
 @Service
 @Transactional
 public class LoanServiceImpl implements LoanService {
+    private static final Logger logger = LoggerFactory.getLogger(LoanServiceImpl.class);
     private final LoanRepository loanRepository;
     private final CustomerRepository customerRepository;
+
     public LoanServiceImpl(LoanRepository loanRepository, CustomerRepository customerRepository) {
         this.loanRepository = loanRepository;
         this.customerRepository = customerRepository;
@@ -31,6 +34,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public LoanResponse createLoan(LoanRequest request) throws BnplApiException {
+        logger.info("Creating loan {}", request);
         Long customerId = request.getCustomerId();
         double amount = request.getAmount();
         Customer customer = customerRepository.findById(customerId)
@@ -83,11 +87,13 @@ public class LoanServiceImpl implements LoanService {
         paymentPlan.setInstallments(installments);
 
         response.setPaymentPlan(paymentPlan);
+        logger.info("Created loan {}", response);
         return response;
     }
 
     @Override
     public LoanResponse getLoanById(Long loanId) throws BnplApiException {
+        logger.info("Getting loan by id {}", loanId);
         Loan loan = loanRepository.findById(loanId)
                 .orElseThrow(() -> new BnplApiException("Loan not found"));
         LoanResponse response = new LoanResponse();
@@ -95,6 +101,7 @@ public class LoanServiceImpl implements LoanService {
         response.setCustomerId(loan.getCustomer().getId());
         response.setStatus(loan.getStatus());
         response.setCreatedAt(loan.getCreatedAt());
+        logger.info("Got loan {}", response);
         return response;
     }
 }

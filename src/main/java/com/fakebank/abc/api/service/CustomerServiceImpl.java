@@ -5,6 +5,8 @@ import com.fakebank.abc.api.dto.CustomerResponse;
 import com.fakebank.abc.api.entity.Customer;
 import com.fakebank.abc.api.exception.BnplApiException;
 import com.fakebank.abc.api.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +18,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
-
+    private static final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
     private final CustomerRepository customerRepository;
 
     public CustomerServiceImpl(CustomerRepository customerRepository) {
@@ -25,6 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerResponse createCustomer(CustomerRequest request) throws BnplApiException {
+        logger.info("Creating customer {}", request);
         // Validar edad
         LocalDate now = LocalDate.now();
         int age = now.getYear() - request.getDateOfBirth().getYear();
@@ -48,11 +51,13 @@ public class CustomerServiceImpl implements CustomerService {
         response.setCreditLineAmount(saved.getCreditLineAmount());
         response.setAvailableCreditLineAmount(saved.getAvailableCreditLineAmount());
         response.setCreatedAt(saved.getCreatedAt());
+        logger.info("Created customer {}", response);
         return response;
     }
 
     @Override
     public CustomerResponse getCustomerById(Long customerId) throws BnplApiException {
+        logger.info("Getting customer by id {}", customerId);
         Optional<Customer> customer = customerRepository.findById(customerId);
         if (customer.isEmpty())
             throw new BnplApiException("Customer not found");
@@ -62,6 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
         response.setCreditLineAmount(c.getCreditLineAmount());
         response.setAvailableCreditLineAmount(c.getAvailableCreditLineAmount());
         response.setCreatedAt(c.getCreatedAt());
+        logger.info("Got customer {}", response);
         return response;
     }
 }

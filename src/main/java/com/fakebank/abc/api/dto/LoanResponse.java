@@ -3,10 +3,12 @@ package com.fakebank.abc.api.dto;
 import com.fakebank.abc.api.util.LoanStatus;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@ToString
 public class LoanResponse {
     @Setter
     @Getter

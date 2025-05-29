@@ -2,9 +2,11 @@ package com.fakebank.abc.api.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+@ToString
 public class CustomerResponse {
     @Setter
     @Getter
